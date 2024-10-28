@@ -1,0 +1,197 @@
+﻿{
+    "Routes": [
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/recipients/current",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/notifications/recipients/current",
+            "UpstreamHttpMethod": [ "Put", "Get" ],
+            "ServiceName": "notification-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "notification"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/accounts/current",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/accounts/current",
+            "UpstreamHttpMethod": [ "Get", "Put" ],
+            "ServiceName": "account-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "account"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/accounts/{name}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/accounts/{name}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "account-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "account"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/accounts/{account}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/accounts/{account}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "account-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "account"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/accounts/",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/accounts/",
+            "UpstreamHttpMethod": [ "Post" ],
+            "ServiceName": "account-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "account"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/statistics/{accountName}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/statistics/{accountName}",
+            "UpstreamHttpMethod": [ "Put" ],
+            "ServiceName": "statistics-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false,
+            "SwaggerKey": "statistics"
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/oauth/token",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/uaa/oauth/token",
+            "UpstreamHttpMethod": [ "Post" ],
+            "ServiceName": "auth-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/{everything}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/auth/{everything}",
+            "UpstreamHttpMethod": [ "Post", "Get" ],
+            "ServiceName": "auth-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/account/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "account-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/notification/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "notification-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/swagger/{everything}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/statistics/swagger/{everything}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "statistics-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        },
+        {
+            "UseServiceDiscovery": true,
+            "DownstreamPathTemplate": "/rates/latest/{baseCurrency}",
+            "DownstreamScheme": "http",
+            "UpstreamPathTemplate": "/rates/latest/{baseCurrency}",
+            "UpstreamHttpMethod": [ "Get" ],
+            "ServiceName": "statistics-app",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "ReRoutesCaseSensitive": false
+        }
+    ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "consul-server",
+      "Port": 8500,
+      "Type": "Consul",
+      "PollingInterval": 1000
+    }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "account",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "Account service API",
+          "Version": "v1",
+          "Url": "http://ocelot:5000/account/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "notification",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "Notification service API",
+          "Version": "v1",
+          "Url": "http://ocelot:5000/notification/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "statistics",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "Statistics service API",
+          "Version": "v1",
+          "Url": "http://ocelot:5000/statistics/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+}

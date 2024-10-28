@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "repos": [
+    {
+      "name": "git_config",
+      "url": "https://github.com/Nike073i/microservices-cource-git2consul.git",
+      "include_branch_name": false,
+      "branches": ["main"],
+      "hooks": [
+        {
+          "type": "polling",
+          "interval": "1"
+        }
+      ]
+    }
+  ]
+}

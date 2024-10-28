@@ -1,0 +1,130 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountService", "AccountService\AccountService.csproj", "{04632300-6D4B-40CE-8A9D-DB7F2FFA3A3A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "AuthService\AuthService.csproj", "{F295AC7D-F04B-4C3B-BB1C-9AB6088C7877}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{5E82F94C-37F3-45F2-9B28-F0559B7CB1DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotService", "OcelotService\OcelotService.csproj", "{164E200E-3BE9-4CAE-BE39-8F5F8BAD97AD}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{357839AD-BDA5-49C1-9007-42ABFE4F56CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consul", "Consul", "{5076BE43-7228-4416-B7E4-EB3B5E781657}"
+	ProjectSection(SolutionItems) = preProject
+		Consul\consul-init.sh = Consul\consul-init.sh
+		Consul\Dockerfile = Consul\Dockerfile
+		Consul\server.json = Consul\server.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "certs", "certs", "{BEDE9EED-7FC7-4D1E-9FD9-AC1CA85BFBEC}"
+	ProjectSection(SolutionItems) = preProject
+		Consul\certs\consul-agent-ca-key.pem = Consul\certs\consul-agent-ca-key.pem
+		Consul\certs\consul-agent-ca.pem = Consul\certs\consul-agent-ca.pem
+		Consul\certs\dc1-server-consul-0-key.pem = Consul\certs\dc1-server-consul-0-key.pem
+		Consul\certs\dc1-server-consul-0.pem = Consul\certs\dc1-server-consul-0.pem
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "init-configs", "init-configs", "{6E10044F-0BE1-4EE9-94B3-C349D99C757E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountService", "AccountService", "{9CA4571D-D68E-4F06-893D-AEC63DBAAFBF}"
+	ProjectSection(SolutionItems) = preProject
+		Consul\init-configs\AccountService\appsettings.json = Consul\init-configs\AccountService\appsettings.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{FE35B8F6-6B3E-4B66-B762-0D3A466F7DE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatisticsService", "StatisticsService\StatisticsService.csproj", "{16B3F7BC-C244-46B2-B557-7AA132CB567D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StatisticsService", "StatisticsService", "{6DEBAA9D-3ECE-4650-9BC5-E5A89282FCD7}"
+	ProjectSection(SolutionItems) = preProject
+		Consul\init-configs\StatisticsService\appsettings.json = Consul\init-configs\StatisticsService\appsettings.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NotificationService", "NotificationService", "{8A38A0C3-4C2A-419A-8C03-A1373AA8B53B}"
+	ProjectSection(SolutionItems) = preProject
+		Consul\init-configs\NotificationService\appsettings.json = Consul\init-configs\NotificationService\appsettings.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prometheus", "Prometheus", "{DE3AC0F8-C707-44F3-8828-87051CBB2F26}"
+	ProjectSection(SolutionItems) = preProject
+		Prometheus\prometheus.yml = Prometheus\prometheus.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grafana", "Grafana", "{75B1B123-812A-416C-98B6-8C64EF8A80CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dashboards", "dashboards", "{C4401DE6-0171-4B7A-9ECB-3EA3C63C6109}"
+	ProjectSection(SolutionItems) = preProject
+		Grafana\provisioning\dashboards\dashboard.yml = Grafana\provisioning\dashboards\dashboard.yml
+		Grafana\provisioning\dashboards\PiggyMetrics.json = Grafana\provisioning\dashboards\PiggyMetrics.json
+		Grafana\provisioning\dashboards\Prometheus 2.0.json = Grafana\provisioning\dashboards\Prometheus 2.0.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datasources", "datasources", "{A03ABA27-0AEF-4C8B-B1B0-90D3E5770069}"
+	ProjectSection(SolutionItems) = preProject
+		Grafana\provisioning\datasources\datasource.yml = Grafana\provisioning\datasources\datasource.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "provisioning", "provisioning", "{AEA49C30-D907-4CD9-B069-65F9CE633F1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SenderService", "SenderService\SenderService.csproj", "{1422F803-7343-407A-A312-FF03E4C16330}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04632300-6D4B-40CE-8A9D-DB7F2FFA3A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04632300-6D4B-40CE-8A9D-DB7F2FFA3A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04632300-6D4B-40CE-8A9D-DB7F2FFA3A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04632300-6D4B-40CE-8A9D-DB7F2FFA3A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F295AC7D-F04B-4C3B-BB1C-9AB6088C7877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F295AC7D-F04B-4C3B-BB1C-9AB6088C7877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F295AC7D-F04B-4C3B-BB1C-9AB6088C7877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F295AC7D-F04B-4C3B-BB1C-9AB6088C7877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E82F94C-37F3-45F2-9B28-F0559B7CB1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E82F94C-37F3-45F2-9B28-F0559B7CB1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E82F94C-37F3-45F2-9B28-F0559B7CB1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E82F94C-37F3-45F2-9B28-F0559B7CB1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164E200E-3BE9-4CAE-BE39-8F5F8BAD97AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164E200E-3BE9-4CAE-BE39-8F5F8BAD97AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164E200E-3BE9-4CAE-BE39-8F5F8BAD97AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164E200E-3BE9-4CAE-BE39-8F5F8BAD97AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357839AD-BDA5-49C1-9007-42ABFE4F56CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357839AD-BDA5-49C1-9007-42ABFE4F56CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357839AD-BDA5-49C1-9007-42ABFE4F56CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357839AD-BDA5-49C1-9007-42ABFE4F56CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE35B8F6-6B3E-4B66-B762-0D3A466F7DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE35B8F6-6B3E-4B66-B762-0D3A466F7DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE35B8F6-6B3E-4B66-B762-0D3A466F7DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE35B8F6-6B3E-4B66-B762-0D3A466F7DE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B3F7BC-C244-46B2-B557-7AA132CB567D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B3F7BC-C244-46B2-B557-7AA132CB567D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B3F7BC-C244-46B2-B557-7AA132CB567D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B3F7BC-C244-46B2-B557-7AA132CB567D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1422F803-7343-407A-A312-FF03E4C16330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1422F803-7343-407A-A312-FF03E4C16330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1422F803-7343-407A-A312-FF03E4C16330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1422F803-7343-407A-A312-FF03E4C16330}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BEDE9EED-7FC7-4D1E-9FD9-AC1CA85BFBEC} = {5076BE43-7228-4416-B7E4-EB3B5E781657}
+		{6E10044F-0BE1-4EE9-94B3-C349D99C757E} = {5076BE43-7228-4416-B7E4-EB3B5E781657}
+		{9CA4571D-D68E-4F06-893D-AEC63DBAAFBF} = {6E10044F-0BE1-4EE9-94B3-C349D99C757E}
+		{6DEBAA9D-3ECE-4650-9BC5-E5A89282FCD7} = {6E10044F-0BE1-4EE9-94B3-C349D99C757E}
+		{8A38A0C3-4C2A-419A-8C03-A1373AA8B53B} = {6E10044F-0BE1-4EE9-94B3-C349D99C757E}
+		{C4401DE6-0171-4B7A-9ECB-3EA3C63C6109} = {AEA49C30-D907-4CD9-B069-65F9CE633F1C}
+		{A03ABA27-0AEF-4C8B-B1B0-90D3E5770069} = {AEA49C30-D907-4CD9-B069-65F9CE633F1C}
+		{AEA49C30-D907-4CD9-B069-65F9CE633F1C} = {75B1B123-812A-416C-98B6-8C64EF8A80CF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B918864-40F3-44EE-89E4-921F0EEB5FB3}
+	EndGlobalSection
+EndGlobal

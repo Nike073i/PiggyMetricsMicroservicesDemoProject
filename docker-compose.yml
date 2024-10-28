@@ -1,0 +1,194 @@
+version: "3.8"
+services:
+  auth:
+    image: auth
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    build: 
+      context: ./
+      dockerfile: ./AuthService/Dockerfile
+    depends_on:
+      - auth_db
+      - elasticsearch
+  auth_db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./AuthService/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: auth
+
+  notification:
+    image: notification_service
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    build:
+      context: ./
+      dockerfile: ./NotificationService/Dockerfile
+    depends_on:
+      - notification_db
+      - git2consul
+      - elasticsearch
+
+  notification_db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./NotificationService/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: notification_db
+  
+  account:
+    image: account_service
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    build:
+      context: ./
+      dockerfile: ./AccountService/Dockerfile
+    depends_on:
+      - account_db
+      - git2consul
+      - elasticsearch
+  account_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: account_db
+
+  statistics:
+    image: statistics_service
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+    build:
+      context: ./
+      dockerfile: ./StatisticsService/Dockerfile
+    depends_on:
+      - statistics_db
+      - git2consul
+      - elasticsearch
+  statistics_db:
+    image: mongo
+    restart: always
+    volumes:
+      - ./StatisticsService/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: statistics_db
+
+  envoy:
+    image: envoyproxy/envoy:v1.28-latest
+    volumes:
+      - ./Envoy/envoy.yml:/etc/envoy/envoy.yaml:ro
+    ports:
+      - "8000:10000"
+      - "65444:9901"
+
+  ocelot:
+    image: ocelot
+    environment:
+      - ASPNETCORE_URLS=https://+:5001;http://+:5000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/aspnetapp.pfx
+    build:
+        context: .
+        dockerfile: ./OcelotService/Dockerfile
+    ports:
+      - "8080:5000"
+      - "8081:5001"
+    depends_on:
+      - ocelot_db
+      - consul-server
+      - elasticsearch
+        
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    ports:
+    - "9200"
+    environment:
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node 
+  
+  kibana:
+    image: library/kibana:7.10.1
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+
+  consul-server:
+    build:
+        context: .
+        dockerfile: ./Consul/Dockerfile
+    image: consul-server
+    restart: always
+    volumes:
+     - ./Consul/server.json:/consul/config/server.json:ro
+     - ./Consul/certs/:/consul/config/certs/:ro
+    command: "agent -bootstrap-expect=1 -client=0.0.0.0"
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+
+  git2consul:
+    image: cimpress/git2consul
+    environment:
+      - CONSUL_ENDPOINT=consul-server
+      - CONSUL_PORT=8500
+    depends_on:
+      - consul-server
+    volumes:
+      - ./Consul/git2consul/config.json:/etc/git2consul.d/config.json
+    command: --config-file /etc/git2consul.d/config.json  
+
+  rabbitmq:
+    image: 3.11.28-management
+
+  sender:
+    image: sender-service
+    build:
+      context: ./
+      dockerfile: ./SenderService/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - EmailServiceSettings__Port=587
+      - EmailServiceSettings__Host=smtp.gmail.com
+      - EmailServiceSettings__Username=${EMAIL_USERNAME}
+      - EmailServiceSettings__Password=${EMAIL_PASSWORD}
+    depends_on:
+      - git2consul
+      - rabbitmq
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./Prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+
+  grafana:
+   image: grafana/grafana:latest
+   container_name: grafana
+   volumes:
+     - ./Grafana/provisioning/:/etc/grafana/provisioning
+   environment:
+     - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+     - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+     - GF_USERS_ALLOW_SIGN_UP=false
+   ports:
+     - 3000:3000

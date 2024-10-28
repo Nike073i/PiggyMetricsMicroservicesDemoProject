@@ -1,0 +1,67 @@
+version: "3.8"
+services:
+  auth:
+    ports:
+      - "27015:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  auth_db:
+    ports:
+      - "27016:27017"
+
+  notification:
+    ports:
+      - "29960:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  notification_db:
+    ports:
+      - "29900:27017"
+  
+  account:
+    ports:
+      - "28960:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  account_db:
+    ports:
+      - "6446:5432"
+  
+  statistics:
+    ports:
+      - "29500:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+  statistics_db:
+    ports:
+      - "29550:27017"
+
+  ocelot:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ${APPDATA}\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}\.aspnet\https:/root/.aspnet/https:ro
+
+  elasticsearch:
+    volumes:
+      - ${APPDATA}/ASP.NET/Volumes/Elastic:/usr/share/elasticsearch/data
+
+  rabbitmq:
+    ports:
+      - "15672:15672"
+
+  prometheus:
+    volumes:
+      - ${APPDATA}/ASP.NET/Volumes/Prometheus:/prometheus
+
+  grafana:
+   volumes:
+     - ${APPDATA}/ASP.NET/Volumes/grafana:/var/lib/grafana
+
+  sender:
+    ports:
+      - "8188:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
